@@ -110,3 +110,55 @@ class Olympic {
 | Moyenne | 1 (fichier volumineux), 3 (useEffect), 8 (routing), 9 (données hardcodées), 10 (logique métier) | Dette technique |
 | Basse | 2 (duplication), 5 (console.log) | Qualité du code et lisibilité |
 
+---
+
+## Étape 2 — Nouvelle architecture proposée
+
+### Composants "smart" vs "dumb"
+
+| Composant | Type | Rôle |
+|---|---|---|
+| `DashboardPage.tsx` | Smart | Appelle `useData`, gère loading/error, passe les données au graphique |
+| `CountryDetailPage.tsx` | Smart | Récupère l'id dans l'URL, appelle `useData`, gère le cas pays introuvable |
+| `HeaderComponent.tsx` | Dumb | Reçoit un titre et une liste d'indicateurs en props, fait uniquement de l'affichage |
+
+---
+
+### Nouvelle structure de dossiers
+
+```
+src/
+├── components/
+│   └── HeaderComponent.tsx     # Dumb — titre + indicateurs réutilisables
+├── hooks/
+│   └── useData.ts              # Point de contact avec les données (futur : API REST)
+├── models/
+│   ├── Olympic.ts              # Classe Olympic avec méthodes métier (LOD)
+│   └── Participation.ts        # Classe Participation
+├── pages/
+│   ├── DashboardPage.tsx       # Smart — dashboard
+│   └── CountryDetailPage.tsx   # Smart — page détail pays
+├── router.tsx                  # Configuration des routes
+├── App.tsx                     # Composant racine
+├── main.tsx
+└── index.css
+```
+
+---
+
+### Rôle de chaque dossier
+
+**`hooks/`** — Les accès aux données passent par ce fichier. Aujourd'hui `useData` lit un fichier JSON mocké. Dans la réalité, il appellera une API REST réelle.
+
+**`models/`** — Les classes métier. Un fichier par classe. Chaque classe est responsable de ses propres calculs (LOD).
+
+**`pages/`** — Les composants smart, un par route. Ils gèrent les données et délèguent l'affichage aux composants.
+
+**`components/`** — Les composants dumb et réutilisables. Ils reçoivent des props, n'ont pas d'état lié aux données, et peuvent être utilisés dans n'importe quelle page.
+
+---
+
+### Préparation à l'intégration d'un back-end
+
+Les données sont actuellement statiques. Quand une API sera disponible, seul `hooks/useData.ts` devra changer — les pages `DashboardPage` et `CountryDetailPage` resteront identiques.
+
