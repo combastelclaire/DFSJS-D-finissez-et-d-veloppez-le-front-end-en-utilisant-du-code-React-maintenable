@@ -8,7 +8,7 @@ const DashboardPage: FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center" role="status" aria-label="Chargement en cours">
         <div className="w-12 h-12 border-4 border-blue-400 border-t-transparent rounded-full animate-spin" />
       </div>
     )
@@ -60,19 +60,23 @@ const DashboardPage: FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-8">
-      <div className="max-w-6xl mx-auto">
-        <HeaderComponent
-          title="Historique des Jeux Olympiques - TéléSport"
-          indicators={indicators}
-        />
-        <div className="bg-gray-800 p-8 rounded-lg shadow-xl">
-          <div style={{ height: '400px' }}>
-            <Pie data={chartData} options={chartOptions} />
-          </div>
+    <div className="min-h-screen bg-gray-900 text-white p-4 md:p-8">
+      <div className="max-w-6xl mx-auto grid grid-cols-4 md:grid-cols-8 xl:grid-cols-12 gap-4">
+        <div className="col-span-4 md:col-span-8 xl:col-span-12">
+          <HeaderComponent
+            title="Historique des Jeux Olympiques - TéléSport"
+            indicators={indicators}
+          />
         </div>
-        <div className="text-sm text-gray-400">
-          <p>Cliquez sur un pays pour voir ses détails</p>
+        <div className="col-span-4 md:col-span-8 xl:col-span-12 bg-gray-800 p-4 md:p-8 rounded-lg shadow-xl">
+          <figure aria-label="Graphique en camembert : total des médailles olympiques par pays">
+            <div className="h-64 md:h-80 xl:h-100">
+              <Pie data={chartData} options={chartOptions} />
+            </div>
+            <figcaption className="text-sm text-gray-400 mt-4 text-center">
+              Total des médailles olympiques par pays (Etats-Unis, Chine, Japon, Grande-Bretagne, France) sur les 5 dernières éditions. Cliquez sur un pays pour voir ses détails.
+            </figcaption>
+          </figure>
         </div>
       </div>
     </div>
