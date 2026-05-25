@@ -4,6 +4,7 @@ import { Pie } from 'react-chartjs-2'
 import type { ChartEvent, ActiveElement } from 'chart.js'
 import HeaderComponent from '../components/HeaderComponent'
 import useData from '../hooks/useData'
+import { countryColors } from '../constants/chartColors'
 
 const DashboardPage: FC = () => {
   const { data, loading } = useData()
@@ -13,6 +14,14 @@ const DashboardPage: FC = () => {
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center" role="status" aria-label="Chargement en cours">
         <div className="w-12 h-12 border-4 border-blue-400 border-t-transparent rounded-full animate-spin" />
+      </div>
+    )
+  }
+
+  if (data.length === 0) {
+    return (
+      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
+        <p className="text-xl text-gray-300">Aucune donnée disponible.</p>
       </div>
     )
   }
@@ -30,20 +39,8 @@ const DashboardPage: FC = () => {
         data: data.map((o) =>
           o.participations.reduce((sum, p) => sum + p.medalsCount, 0)
         ),
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.6)',
-          'rgba(54, 162, 235, 0.6)',
-          'rgba(255, 206, 86, 0.6)',
-          'rgba(75, 192, 192, 0.6)',
-          'rgba(153, 102, 255, 0.6)',
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-        ],
+        backgroundColor: countryColors.map((c) => c.background),
+        borderColor: countryColors.map((c) => c.border),
         borderWidth: 1,
       },
     ],
