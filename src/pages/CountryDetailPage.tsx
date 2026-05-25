@@ -3,13 +3,13 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { Line } from 'react-chartjs-2'
 import HeaderComponent from '../components/HeaderComponent'
 import useData from '../hooks/useData'
+import { countryColors } from '../constants/chartColors'
 
 const CountryDetailPage: FC = () => {
   const { id } = useParams()
   const { data, loading } = useData()
   const navigate = useNavigate()
   const location = useLocation()
-  const { border, background } = location.state as { border: string; background: string }
 
   if (loading) {
     return (
@@ -19,22 +19,16 @@ const CountryDetailPage: FC = () => {
     )
   }
 
-  const country = data.find((o) => o.id === Number(id))
+  const countryIndex = data.findIndex((o) => o.id === Number(id))
+  const country = data[countryIndex]
 
   if (!country) {
-    return (
-      <div className="min-h-screen bg-gray-900 text-white p-8 flex flex-col items-center justify-center gap-4">
-        <p className="text-xl">Pays introuvable.</p>
-        <button
-          onClick={() => navigate('/')}
-          className="bg-teal-700 hover:bg-teal-600 text-white font-semibold px-4 py-2 rounded-lg"
-          aria-label="Retour au dashboard"
-        >
-          ← Retour
-        </button>
-      </div>
-    )
+    navigate('/404', { replace: true })
+    return null
   }
+
+  const navigationState = location.state as { border: string; background: string } | null
+  const { border, background } = navigationState ?? countryColors[countryIndex]
 
   const totalMedals = country.participations.reduce((sum, p) => sum + p.medalsCount, 0)
   const totalAthletes = country.participations.reduce((sum, p) => sum + p.athleteCount, 0)

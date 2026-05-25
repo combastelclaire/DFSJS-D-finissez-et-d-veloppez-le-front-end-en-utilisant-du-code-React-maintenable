@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom'
 import DashboardPage from './pages/DashboardPage'
 import CountryDetailPage from './pages/CountryDetailPage'
+import NotFoundPage from './pages/NotFoundPage'
 
 const router = createBrowserRouter([
   {
@@ -10,6 +11,14 @@ const router = createBrowserRouter([
   {
     path: '/country/:id',
     element: <CountryDetailPage />,
+  },
+  {
+    path: '/404',
+    element: <NotFoundPage />,
+  },
+  {
+    path: '*',
+    element: <NotFoundPage />,
   },
 ])
 
