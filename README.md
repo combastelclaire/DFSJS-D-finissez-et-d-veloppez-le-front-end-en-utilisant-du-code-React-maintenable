@@ -2,14 +2,6 @@
 
 Interactive web application to visualize historical performance data of countries in the Olympic Games.
 
-## 🚀 Features
-
-- **Interactive Dashboard**: View medal counts by country with interactive charts
-- **Country Details**: Explore detailed statistics for each participating country
-- **Data Visualization**: Interactive charts powered by Chart.js
-- **Responsive Design**: Optimized for desktop and mobile devices
-- **Modern Stack**: Built with React 19, TypeScript, and Tailwind CSS
-
 ## 📋 Prerequisites
 
 - **Node.js** 22 LTS or higher
@@ -20,8 +12,8 @@ Interactive web application to visualize historical performance data of countrie
 Clone the repository:
 
 ```bash
-git clone https://github.com/openclassrooms/p2-dfsjs.git
-cd p2-dfsjs
+git clone git@github.com:combastelclaire/DFSJS-D-finissez-et-d-veloppez-le-front-end-en-utilisant-du-code-React-maintenable.git
+cd DFSJS-D-finissez-et-d-veloppez-le-front-end-en-utilisant-du-code-React-maintenable
 ```
 
 Install dependencies:
@@ -30,93 +22,74 @@ Install dependencies:
 npm install
 ```
 
+## Scripts
+
+| Command | Description |
+|---|---|
+| `npm run dev` | Start the development server (http://localhost:5173) |
+| `npm run build` | Build the application for production |
+| `npm run preview` | Preview the production build |
+| `npm run lint` | Check code quality with ESLint |
+
 ## 🎯 Usage
 
-### Development Server
+Start the development server and open [http://localhost:5173](http://localhost:5173).
 
-Start the development server:
-
-```bash
-npm run dev
-```
-
-The application will be available at [http://localhost:5173](http://localhost:5173)
-
-### Production Build
-
-Build the application for production:
-
-```bash
-npm run build
-```
-
-### Linting
-
-Run the linter to check code quality:
-
-```bash
-npm run lint
-```
+- Click on a country in the pie chart to navigate to its detail page
+- Click **← Retour** to go back to the dashboard
+- Any unknown URL redirects to the 404 page
 
 ## 📁 Project Structure
 
 ```
-p2-dfsjs/
-├── public/              # Static public assets
-├── src/
-│   ├── App.tsx         # Main application component
-│   ├── main.tsx        # React entry point
-│   └── index.css       # Global styles
-├── index.html          # Main HTML page
-├── package.json        # Project dependencies
-├── tsconfig.json       # TypeScript configuration
-├── vite.config.ts      # Vite configuration
-├── tailwind.config.js  # Tailwind CSS configuration
-└── .eslintrc.cjs       # ESLint configuration
+src/
+├── components/
+│   └── HeaderComponent.tsx   # Reusable title + indicators component
+├── constants/
+│   └── chartColors.ts        # Shared colors across charts
+├── data/
+│   └── olympics.json         # Static Olympic Games data
+├── hooks/
+│   └── useData.ts            # Data loading and exposure
+├── models/
+│   ├── Olympic.ts            # Olympic interface
+│   └── Participation.ts      # Participation interface
+├── pages/
+│   ├── DashboardPage.tsx     # Main page with pie chart
+│   ├── CountryDetailPage.tsx # Country detail page with line chart
+│   └── NotFoundPage.tsx      # 404 error page
+├── router.tsx                # Route configuration
+├── App.tsx                   # Root component
+└── main.tsx                  # React entry point
 ```
 
 ## 🔧 Tech Stack
 
-- **React 19** - UI library with latest features
-- **TypeScript** - Static type checking
-- **Vite 5** - Fast build tool and dev server
-- **Tailwind CSS 4** - Utility-first CSS framework
-- **React Router 6** - Client-side routing
-- **Chart.js** - Interactive data visualization
-- **ESLint** - Code quality and consistency
+- **React 19** — UI library, functional components and hooks
+- **TypeScript** — static typing, interfaces for data models
+- **Vite** — fast build tool with hot module replacement
+- **Tailwind CSS 4** — utility-first CSS, responsive with `md:` and `xl:` breakpoints
+- **React Router 6** — client-side routing (`/`, `/country/:id`, `/404`, `*`)
+- **Chart.js + react-chartjs-2** — pie chart (dashboard) and line chart (country detail)
 
-## 📊 Data
+## 🚀 Features
 
-The application currently uses mock data to simulate Olympic Games statistics. This architecture is designed to facilitate future integration with a REST API backend.
-
-## 🎨 Design
-
-The application features:
-
-- Clean, modern interface optimized for data visualization
-- Responsive layout adapting to all screen sizes
-- Interactive charts with hover effects
-- Smooth navigation between pages
+- Interactive pie chart dashboard (click a country → navigate to detail page)
+- Country detail page: participations, medals, athletes, evolution over 5 editions
+- Back navigation to dashboard
+- Error handling: 404 page for unknown URLs and non-existent countries
+- Responsive design: mobile (≤ 767px), tablet (768–1199px), desktop (≥ 1200px)
 
 ## 📚 Documentation
 
-For more information on the technologies used:
+- [React](https://react.dev)
+- [TypeScript](https://www.typescriptlang.org/docs/)
+- [Vite](https://vitejs.dev)
+- [Tailwind CSS](https://tailwindcss.com/docs)
+- [React Router](https://reactrouter.com)
+- [Chart.js](https://www.chartjs.org/docs/latest/)
 
-- [React Documentation](https://react.dev)
-- [TypeScript Handbook](https://www.typescriptlang.org/docs/)
-- [Vite Guide](https://vitejs.dev)
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
-- [React Router Documentation](https://reactrouter.com)
-- [Chart.js Documentation](https://www.chartjs.org/docs/latest/)
+## ⚠️ Limitations
 
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📝 License
-
-This project is available for educational and personal use.
-
----
-
-**Built with React 19 + TypeScript + Vite + Tailwind CSS**
+- Data is static (local JSON file): no connection to a real API
+- Direct navigation to `/country/:id` via URL displays the chart with a color computed by index rather than the one passed from the dashboard
