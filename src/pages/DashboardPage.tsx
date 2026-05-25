@@ -1,10 +1,13 @@
 import type { FC } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Pie } from 'react-chartjs-2'
+import type { ChartEvent, ActiveElement } from 'chart.js'
 import HeaderComponent from '../components/HeaderComponent'
 import useData from '../hooks/useData'
 
 const DashboardPage: FC = () => {
   const { data, loading } = useData()
+  const navigate = useNavigate()
 
   if (loading) {
     return (
@@ -49,6 +52,18 @@ const DashboardPage: FC = () => {
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
+    onClick: (_event: ChartEvent, elements: ActiveElement[]) => {
+      if (elements.length > 0) {
+        const index = elements[0].index
+        const country = data[index]
+        navigate(`/country/${country.id}`, {
+          state: {
+            border: chartData.datasets[0].borderColor[index],
+            background: chartData.datasets[0].backgroundColor[index],
+          },
+        })
+      }
+    },
     plugins: {
       legend: {
         position: 'bottom' as const,
